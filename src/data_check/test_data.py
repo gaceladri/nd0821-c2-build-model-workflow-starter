@@ -42,16 +42,15 @@ def test_neighborhood_names(data):
 
 def test_proper_boundaries(
         data: pd.DataFrame,
-        lower_interquantile,
-        higher_interquantile):
+    ):
     """
     Test proper longitude and latitude boundaries for properties in and around NYC
     """
     idx = data['longitude'].between(
-        data.longitude.interquantile(lower_interquantile),
-        data.longitude.interquantile(higher_interquantile)) & data['latitude'].between(
-        data.latitude.interquantile(lower_interquantile),
-        data.latitude.interquantile(higher_interquantile))
+        -73.99,
+        -73.77) & data['latitude'].between(
+        40.67,
+        40.86)
 
     assert np.sum(~idx) == 0
 
