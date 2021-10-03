@@ -55,11 +55,11 @@ def go(config: DictConfig):
                 parameters={
                     "input_artifact": "sample.csv:latest",
                     "output_artifact": "clean_sample.csv",
-                    "output_description": "Data with outliers removed using the IQ Rule",
                     "output_type": "clean_sample",
+                    "output_description": "data with outliers removed using the IQ Rule",
                     "lower_interquantile": config['etl']['lower_interquantile'],
                     "higher_interquantile": config['etl']['higher_interquantile'],
-                }
+                },
             )
 
         if "data_check" in active_steps:
