@@ -1,5 +1,6 @@
-import pytest
 import pandas as pd
+import pytest
+
 import wandb
 
 
@@ -7,8 +8,8 @@ def pytest_addoption(parser):
     parser.addoption("--csv", action="store")
     parser.addoption("--ref", action="store")
     parser.addoption("--kl_threshold", action="store")
-    parser.addoption("--min_price", action="store")
-    parser.addoption("--max_price", action="store")
+    parser.addoption("--lower_interquantile", action="store")
+    parser.addoption("--higher_interquantile", action="store")
 
 
 @pytest.fixture(scope='session')
@@ -52,18 +53,20 @@ def kl_threshold(request):
 
     return float(kl_threshold)
 
+
 @pytest.fixture(scope='session')
 def min_price(request):
-    min_price = request.config.option.min_price
+    min_price = request.config.option.lower_interquantile
 
     if min_price is None:
         pytest.fail("You must provide min_price")
 
     return float(min_price)
 
+
 @pytest.fixture(scope='session')
 def max_price(request):
-    max_price = request.config.option.max_price
+    max_price = request.config.option.higher_interquantile
 
     if max_price is None:
         pytest.fail("You must provide max_price")

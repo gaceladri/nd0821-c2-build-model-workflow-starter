@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 import scipy.stats
 
 
@@ -40,16 +40,26 @@ def test_neighborhood_names(data):
     assert set(known_names) == set(neigh)
 
 
-def test_proper_boundaries(data: pd.DataFrame):
+def test_proper_boundaries(
+        data: pd.DataFrame,
+        lower_interquantile,
+        higher_interquantile):
     """
     Test proper longitude and latitude boundaries for properties in and around NYC
     """
-    idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
+    idx = data['longitude'].between(
+        data.longitude.interquantile(lower_interquantile),
+        data.longitude.interquantile(higher_interquantile)) & data['latitude'].between(
+        data.latitude.interquantile(lower_interquantile),
+        data.latitude.interquantile(higher_interquantile))
 
     assert np.sum(~idx) == 0
 
 
-def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_threshold: float):
+def test_similar_neigh_distrib(
+        data: pd.DataFrame,
+        ref_data: pd.DataFrame,
+        kl_threshold: float):
     """
     Apply a threshold on the KL divergence to detect if the distribution of the new data is
     significantly different than that of the reference dataset
@@ -60,6 +70,15 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
     assert scipy.stats.entropy(dist1, dist2, base=2) < kl_threshold
 
 
-########################################################
-# Implement here test_row_count and test_price_range   #
-########################################################
+def test_row_count(data: pd.DataFrame):
+    assert 1500 < data.shape[0] < 1000000
+
+
+def test_price_range(data: pd.DataFrame, lower_quantile, higher_quantile):
+    interquantile1 = data.quantile(lower_quantile)
+    interquantile2 = data.quantile(higher_quantile)
+
+    print(interquantile1)
+
+    assert data.price.max() == interquantile2.max()
+    assert data.price.min() == interquantile1.min()
