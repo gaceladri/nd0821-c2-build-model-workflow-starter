@@ -1,9 +1,17 @@
-import numpy as np
+"""
+Some test about "data quality"
+Author: Adrian
+Date: 3 Oct 2021
+"""
+
 import pandas as pd
-import scipy.stats
+import scipy
 
 
 def test_column_names(data):
+    """
+    Test that we have the expected column names
+    """
 
     expected_colums = [
         "id",
@@ -31,6 +39,9 @@ def test_column_names(data):
 
 
 def test_neighborhood_names(data):
+    """
+    Test unique names in neighborhood column
+    """
 
     known_names = ["Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
 
@@ -40,9 +51,7 @@ def test_neighborhood_names(data):
     assert set(known_names) == set(neigh)
 
 
-def test_proper_boundaries(
-        data: pd.DataFrame,
-    ):
+def test_proper_boundaries(data: pd.DataFrame):
     """
     Test proper longitude and latitude boundaries for properties in and around NYC
     """
