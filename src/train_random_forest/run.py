@@ -101,14 +101,11 @@ def main(args):
 
     # Save the sk_pipe pipeline as a mlflow.sklearn model in the directory
     # "random_forest_dir"
-    with tempfile.TemporaryDirectory() as tempdir:
-        export_path = os.path.join(tempdir, "random_forest_dir")
-
     signature = mlflow.models.infer_signature(x_val, y_pred)
 
     mlflow.sklearn.save_model(
         sk_pipe,
-        export_path,
+        "random_forest_dir",
         serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
         signature=signature,
         input_example=x_val.iloc[:2]
@@ -118,8 +115,7 @@ def main(args):
     artifact = wandb.Artifact(
         name=args.output_artifact,
         type="model_pipeline",
-        description="random forest sklearn model pipeline",
-        metadata=sk_pipe.get_params()
+        description="random forest sklearn model pipeline"
     )
     artifact.add_dir("random_forest_dir")
     run.log_artifact(artifact)
