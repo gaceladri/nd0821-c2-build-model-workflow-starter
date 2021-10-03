@@ -35,4 +35,4 @@ entry_points:
                        --output_description {output_description} \
                        --output_type {output_type} \
                        --lower_interquantile {lower_interquantile} \
-                       --higher_interquantile {higher_interquantile} \ 
+                       --higher_interquantile {higher_interquantile} \
