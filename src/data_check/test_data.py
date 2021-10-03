@@ -5,7 +5,7 @@ Date: 3 Oct 2021
 """
 
 import pandas as pd
-import scipy
+from scipy import stats
 
 
 def test_column_names(data):
@@ -72,7 +72,7 @@ def test_similar_neigh_distrib(
     dist1 = data['neighbourhood_group'].value_counts().sort_index()
     dist2 = ref_data['neighbourhood_group'].value_counts().sort_index()
 
-    assert scipy.stats.entropy(dist1, dist2, base=2) < kl_threshold
+    assert stats.entropy(dist1, dist2, base=2) < kl_threshold
 
 
 def test_row_count(data: pd.DataFrame):
