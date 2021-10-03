@@ -53,7 +53,7 @@ def go(args):
              %s min: %f max: %f', dataframe.shape, dataframe.price.min, dataframe.price.max)
 
     # Save the dataframe to csv
-    dataframe.to_csv(args.output_artifact)
+    dataframe.to_csv(args.output_artifact, index=False)
     logger.info('CSV saved to %s', args.output_artifact)
 
     logger.info('Uploading the artifact to WANDB %s', args.output_artifact)
