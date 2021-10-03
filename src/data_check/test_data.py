@@ -46,13 +46,10 @@ def test_proper_boundaries(
     """
     Test proper longitude and latitude boundaries for properties in and around NYC
     """
-    idx = data['longitude'].between(
-        -73.99,
-        -73.77) & data['latitude'].between(
-        40.67,
-        40.86)
-
-    assert np.sum(~idx) == 0
+    assert len(data[data.longitude < -74.3]) == 0
+    assert len(data[data.longitude > -73.5]) == 0
+    assert len(data[data.latitude > 40.95]) == 0
+    assert len(data[data.latitude < 40.4]) == 0
 
 
 def test_similar_neigh_distrib(
@@ -70,14 +67,15 @@ def test_similar_neigh_distrib(
 
 
 def test_row_count(data: pd.DataFrame):
+    """
+    Test that we don't have too much values or too few
+    """
     assert 1500 < data.shape[0] < 1000000
 
 
-def test_price_range(data: pd.DataFrame, lower_quantile, higher_quantile):
-    interquantile1 = data.quantile(lower_quantile)
-    interquantile2 = data.quantile(higher_quantile)
-
-    print(interquantile1)
-
-    assert data.price.max() == interquantile2.max()
-    assert data.price.min() == interquantile1.min()
+def test_price_range(data: pd.DataFrame):
+    """
+    Test that we have filtered the prices by the upper interquantile 99% -> 1800
+    """
+    assert data.price.max() == 1800
+    assert data.price.min() == 0
