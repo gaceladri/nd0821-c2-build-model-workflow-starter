@@ -84,7 +84,7 @@ def test_row_count(data: pd.DataFrame):
 
 def test_price_range(data: pd.DataFrame):
     """
-    Test that we have filtered the prices by the upper interquantile 99% -> 1800
+    Test that we have filtered the prices by the upper interquantile 99% -> 1900
     """
-    assert data.price.max() == 1800
+    assert data.price.max() == 1900
     assert data.price.min() == 0
