@@ -7,6 +7,7 @@ to be retrained with the same cadence, necessitating an end-to-end pipeline that
 In this project you will build such a pipeline.
 
 Github repo: https://github.com/gaceladri/udacity_MLOps_engineer_course
+  
 W&B project: https://wandb.ai/gaceladri/nyc_airbnb
 
 ## Table of contents
